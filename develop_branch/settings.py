@@ -2,9 +2,10 @@
 
 
 
-ENEMY_LIVES_CONST = 10
-PLAYER_LIVES_CONST = 10
+#ENEMY_LIVES_CONST = 2
+PLAYER_LIVES_CONST = 2
 GAME_LEVEL_CONST = 1
+ALLOWED_ATTACKS_CONST = ['1', '2', '3']
 
 HELP_CONST = ''' Додати команду show scores - яка виводить записи із файлу scores.txt
 Додати команду exit - викликає виняток та завершує роботу програми. '''

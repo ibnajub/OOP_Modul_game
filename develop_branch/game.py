@@ -1,6 +1,6 @@
-#Файл game.py - основний файл, який запускається для гри.
+# Файл game.py - основний файл, який запускається для гри.
 
-import  settings
+import settings
 import game_exceptions
 import models
 
@@ -22,24 +22,47 @@ def play():
 - Створюється об'єкт enemy.
 - В бескінечному циклі викликаються методи attack та defence об'єкту player
 - при виникненні винятку EnemyDown підвищує рівень гри на 1, створює новий об'єкт Enemy з новим рівнем '''
-   name = input('Input you name: ')
-   player =  models.Player(name, settings.PLAYER_LIVES_CONST, settings.GAME_LEVEL_CONST)
-   enemy = models.Enemy(settings.ENEMY_LIVES_CONST )
-    while true:
+
+    name = input('Input you name: ')
+    while True:
+        command = input('input start or help')
+        if command == 'help':
+            print(settings.HELP_CONST)
+        elif command == 'start':
+            break
+        elif command == 'show scores':
+            # виводить записи із файлу scores.txt
+            read_score('scores.txt')
+
+        elif command == 'exit':
+            raise KeyboardInterrupt
+        else:
+            print('Wrong command!')
+
+    player = models.Player(name, settings.PLAYER_LIVES_CONST, settings.ALLOWED_ATTACKS_CONST)
+    level = settings.GAME_LEVEL_CONST
+    enemy = models.Enemy(level)
+    while True:
         try:
-           player.attack(enemy)
-           # подсчет балов
+            player.attack(enemy)
+            # подсчет балов
         except game_exceptions.EnemyDown:
-            settings.GAME_LEVEL_CONST += 1
-            level = settings.ENEMY_LIVES_CONST + settings.GAME_LEVEL_CONST
-            enemy = models.Enemy( level )
+            player.score += 10
+            level += 1
+            enemy = models.Enemy(level)
+
+        player.defence(enemy)
+        # подсчет балов
 
 
-   player.defence(enemy_obj)
-    # подсчет балов
+def read_score(file):
+    with open('scores.txt') as fl:
+        print('-------SCORE TABLE-------\n')
+        for string in fl:
+             print(f'{string}\n')
 
 
-
+# ---------------------------
 if __name__ == '__main__':
     try:
         play()
@@ -52,4 +75,3 @@ if __name__ == '__main__':
 
     finally:
         print("Good bye!")
-

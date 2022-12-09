@@ -16,7 +16,8 @@ class Enemy():
 
     def __init__(self, level):
         self.level = level
-        self.lives =  level
+        self.lives = level
+        print(f"level: {self.level}")
 
     @staticmethod
     def select_attack():
@@ -24,6 +25,7 @@ class Enemy():
 
     def decrease_lives(self):
         self.lives -= 1
+        print(f"enemy lives: {self.lives}")
         if self.lives == 0:
             raise game_exceptions.EnemyDown()
 
@@ -60,6 +62,7 @@ class Player():
         self.score = 0
         self.lives = lives  # settings.PLAYER_LIVES_CONST
         self.allowed_attacks = allowed_attacks
+        print(f'lives: {self.lives} , score: {self.score}')
 
     @staticmethod
     def fight(attack, defense):
@@ -77,30 +80,44 @@ class Player():
 
     def decrease_lives(self):
         self.lives -= 1
+        print(f"pleyer lives: {self.lives}")
         if self.lives == 0:
-            raise game_exceptions.GameOver()
+            raise game_exceptions.GameOver(self.name,self.score)
 
     def attack(self, enemy_obj):
-        player_hero = input('attack , select чаклуна(1), воїна(2) чи розбійника(3) '
-                            'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
+        hero_list = self.allowed_attacks
+        while True:
+            player_hero = input('attack , select чаклуна(1), воїна(2) чи розбійника(3) '
+                                'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
+            if player_hero in hero_list:
+                break
+            else:
+                print('Wrong Hero!')
         enemy_hero = Enemy.select_attack()
         print(f'Enemy is  {enemy_hero}')
         res_fight = Player.fight(player_hero, enemy_hero)
         if res_fight == 0:
             print("It's a draw!")
         elif res_fight == 1:
-            print("You attacked successfully!")
+            self.score += 5
+            print(f"You attacked successfully! score: {self.score}")
             enemy_obj.decrease_lives()
+
         else:
             print("You missed!!")
 
     def defence(self, enemy_obj):
-        player_hero = input('defence, select чаклуна(1), воїна(2) чи розбійника(3) '
-                            'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
-        #Додати валідацію вводу корситувача.
+        hero_list = self.allowed_attacks
+        while True:
+            player_hero = input('attack , select чаклуна(1), воїна(2) чи розбійника(3) '
+                                'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
+            if player_hero in hero_list:
+                break
+            else:
+                print('Wrong Hero!')
 
         enemy_hero = Enemy.select_attack()
-        print(f'Enemy is  {enemy_hero}' )
+        print(f'Enemy is  {enemy_hero}')
         res_fight = Player.fight(enemy_hero, player_hero)
         if res_fight == 0:
             print("It's a draw!")
