@@ -25,7 +25,7 @@ def play():
 
     name = input('Input you name: ')
     while True:
-        command = input('input start or help')
+        command = input('input start or help:')
         if command == 'help':
             print(settings.HELP_CONST)
         elif command == 'start':
@@ -36,6 +36,7 @@ def play():
 
         elif command == 'exit':
             raise KeyboardInterrupt
+
         else:
             print('Wrong command!')
 
@@ -47,8 +48,9 @@ def play():
             player.attack(enemy)
             # подсчет балов
         except game_exceptions.EnemyDown:
-            player.score += 10
+            player.score += 5
             level += 1
+            print(f'-----Enemy down!----- scores: {player.score}')
             enemy = models.Enemy(level)
 
         player.defence(enemy)
@@ -57,9 +59,12 @@ def play():
 
 def read_score(file):
     with open('scores.txt') as fl:
-        print('-------SCORE TABLE-------\n')
+        print('-------SCORE TABLE-------\n'
+              '-rank- | -name- | -score- | -date-')
+        rank = 1
         for string in fl:
-             print(f'{string}\n')
+            print(f' {rank} | {string}\n')
+            rank += 1
 
 
 # ---------------------------
@@ -74,4 +79,4 @@ if __name__ == '__main__':
 
 
     finally:
-        print("Good bye!")
+        print("\nGood bye!")

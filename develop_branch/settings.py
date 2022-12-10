@@ -7,5 +7,7 @@ PLAYER_LIVES_CONST = 2
 GAME_LEVEL_CONST = 1
 ALLOWED_ATTACKS_CONST = ['1', '2', '3']
 
-HELP_CONST = ''' Додати команду show scores - яка виводить записи із файлу scores.txt
-Додати команду exit - викликає виняток та завершує роботу програми. '''
+HELP_CONST = ''' 
+show scores - displays a table of records
+exit - exit from the game 
+'''

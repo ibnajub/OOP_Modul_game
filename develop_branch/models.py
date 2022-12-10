@@ -80,26 +80,28 @@ class Player():
 
     def decrease_lives(self):
         self.lives -= 1
-        print(f"pleyer lives: {self.lives}")
+        print(f"player lives: {self.lives}")
         if self.lives == 0:
-            raise game_exceptions.GameOver(self.name,self.score)
+            raise game_exceptions.GameOver(self.name, self.score)
 
     def attack(self, enemy_obj):
         hero_list = self.allowed_attacks
         while True:
-            player_hero = input('attack , select чаклуна(1), воїна(2) чи розбійника(3) '
-                                'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
-            if player_hero in hero_list:
+            player_hero = input('ATTACK! select wizard(1), warrior(2), bandit(3) '
+                                '(wizard win warrior. warrior win bandit. bandit win wizard):')
+            if player_hero in hero_list:  # hero_list
                 break
+            elif player_hero == "exit":  # не работает Control+C
+                raise KeyboardInterrupt
             else:
                 print('Wrong Hero!')
         enemy_hero = Enemy.select_attack()
         print(f'Enemy is  {enemy_hero}')
-        res_fight = Player.fight(player_hero, enemy_hero)
+        res_fight = Player.fight(int(player_hero), enemy_hero)
         if res_fight == 0:
             print("It's a draw!")
         elif res_fight == 1:
-            self.score += 5
+            self.score += 1
             print(f"You attacked successfully! score: {self.score}")
             enemy_obj.decrease_lives()
 
@@ -109,16 +111,18 @@ class Player():
     def defence(self, enemy_obj):
         hero_list = self.allowed_attacks
         while True:
-            player_hero = input('attack , select чаклуна(1), воїна(2) чи розбійника(3) '
-                                'Чаклун перемагає воїна. Воїн перемагає розбійника. Розбійник перемагає чаклуна.')
+            player_hero = input('DEFENCE! select wizard(1), warrior(2), bandit(3) '
+                                '(wizard win warrior. warrior win bandit. bandit win wizard):')
             if player_hero in hero_list:
                 break
+            elif player_hero == "exit":  # не работает Control+C
+                raise KeyboardInterrupt
             else:
                 print('Wrong Hero!')
 
         enemy_hero = Enemy.select_attack()
         print(f'Enemy is  {enemy_hero}')
-        res_fight = Player.fight(enemy_hero, player_hero)
+        res_fight = Player.fight(enemy_hero, int(player_hero))
         if res_fight == 0:
             print("It's a draw!")
         elif res_fight == 1:
