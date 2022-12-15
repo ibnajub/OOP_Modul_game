@@ -133,5 +133,5 @@ class Player:
     def decrease_lives(self):
         self.lives -= 1
         if self.lives == 0:
-            hard_norm_s = ( 'Hard' if self.mode_multiplayer > 1 else 'Normal' )
+            hard_norm_s = ('Hard' if self.mode_multiplayer > 1 else 'Normal')
             raise game_exceptions.GameOver(self.name, self.score, hard_norm_s)

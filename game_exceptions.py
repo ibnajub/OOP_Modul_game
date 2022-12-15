@@ -49,4 +49,4 @@ class EnemyDown(Exception):
 
 if __name__ == '__main__':
     # test
-    GameOver.save_score(109999, 'dsfsdf','Hard')
+    GameOver.save_score(109999, 'dsfsdf', 'Hard')
